@@ -10,7 +10,7 @@ router.get('/get_nonograms' , async (req,res) =>{
                 console.log(err)
                 return res.send({error : "Falha ao buscar nonogramas"})
             }
-            return res.send({nonogramas: all_nonos})
+            return res.send(all_nonos)
         })
 
     }catch (err){
@@ -21,7 +21,6 @@ router.get('/get_nonograms' , async (req,res) =>{
 
 router.post('/create_nonogram' , async (req,res) =>{
     try{    
-        console.log(req.body)
         const nonograma = await Nonogramas.create(req.body)
         return res.send({ nonograma })
     }catch (err){
