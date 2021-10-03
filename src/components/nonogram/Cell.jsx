@@ -4,7 +4,7 @@ import React from "react";
 export default function Cell(props) {
   return (
     <button className="nonogram-cell"
-      onClick={props.onClick}
+      onClick={() => {props.onClick()}}
       style={{backgroundColor: props.color}}
     ></button>
   )

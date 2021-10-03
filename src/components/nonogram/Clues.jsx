@@ -1,9 +1,9 @@
 import React, {useMemo} from "react";
 
 export default function Clues(props) {
-  const ct = props.ct
+  const ct = props.type
   const [iSize, jSize] = props.size
-  const colorMat = props.colorMatrix
+  const colorMatrix = props.colorMatrix
 
   const clueArray = useMemo(() => {
     let clueRagArray = []
@@ -16,8 +16,8 @@ export default function Clues(props) {
       let curLength = 0
       let scanLine = []
       for(let inner = 0; inner < innerSize; inner++) {
-        const color = (ct === 'left' ? colorMat[outer][inner] :
-          colorMat[inner][outer])
+        const color = (ct === 'left' ? colorMatrix[outer][inner] :
+          colorMatrix[inner][outer])
         if(color !== curColor) {
           if(curColor !== "empty") {
             scanLine.push({val:curLength, color:curColor})
@@ -33,7 +33,7 @@ export default function Clues(props) {
       }
       clueRagArray.push(scanLine)
     }
-    const maxInnerSize = Math.max(...clueRagArray.map((line) => (length(line))))
+    const maxInnerSize = Math.max(...clueRagArray.map((line) => (line.length)))
 
     clueRagArray.forEach((line) => {
       for(let i = 0; i < maxInnerSize; i++) {
@@ -41,9 +41,9 @@ export default function Clues(props) {
       }
     })
     return clueRagArray
-  }, [])
+  }, [colorMatrix, ct, iSize, jSize])
 
-  const clueInnerSize = useMemo(() => length(clueArray[0]))
+  const clueInnerSize = useMemo(() => clueArray[0].length, [clueArray])
 
   let clueISize = (ct === 'left' ? iSize : clueInnerSize)
   let clueJSize = (ct === 'left' ? clueInnerSize : jSize)
@@ -53,16 +53,22 @@ export default function Clues(props) {
   for(let i = 0; i < clueISize; i++) {
     let clueRow = []
     for(let j = 0; j < clueJSize; j++) {
-      let clue = (ct === 'left' ?  : )
-      
-      clueRow.push(<td>{}</td>)
+      const clue = (ct === 'left' ? clueArray[i][j] : clueArray[j][i])
+      const bgColor = (clue.color !== "empty" ? clue.color : "#ffffff")
+      clueRow.push(
+        <td key={i + ',' + j} style={{background: bgColor}}>
+          <div>{clue.val === 0 ? "" : clue.val}</div>
+        </td>
+      )
     }
-    clueMatrix.push(<tr>{clueRow}</tr>)
+    clueMatrix.push(<tr key={i.toString()}>{clueRow}</tr>)
   }
   
   return (
     <table>
-      {clueMatrix}
+      <tbody>
+        {clueMatrix}
+      </tbody>
     </table>
   )
 }
