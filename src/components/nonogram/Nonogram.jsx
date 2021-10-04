@@ -1,5 +1,6 @@
-import React, { useState ,  useEffect } from "react"
+import React, { useState ,  useEffect, useMemo } from "react"
 //import ColorSelector from './ColorSelector'
+import ColorSelector from './ColorSelector'
 //import ColorToggler from './ColorToggler'
 import Clues from './Clues'
 import Grid from './Grid'
@@ -9,48 +10,91 @@ export default function Nonogram(props) {
 
   const [resultMatrix, setResultMatrix ] = useResultMatrixContext()
 
-  const [colorMatrix, setColorMatrix] = useState([])
+  const [colorMatrix, setColorMatrix] = useState(
+    resultMatrix.map((row) => (row.map(() => ("empty"))))
+  )
+
+  const [penColor, setPenColor] = useState(
+    "empty"
+  )
+
+  const colorArray = useMemo(() => {
+    const uniqueColorArray = []
+    for(const row of resultMatrix) {
+      for(const color of row) {
+        if(color !== "empty" && !uniqueColorArray.includes(color)) {
+          uniqueColorArray.push(color)
+        }
+      }
+    }
+    return uniqueColorArray
+  }, [resultMatrix])
+
   
+
   let nonoSize = ([resultMatrix.length, resultMatrix[0].length])
 
   useEffect( () => {
-    let matrix = []
-    for (let i = 0; i < nonoSize[0]; i++){
-        let row = []
-      for(let j = 0; j < nonoSize[1] ; j++){
-        row.push("#ffffff")
-      }
-      matrix.push(row)
-    }
-
-    setColorMatrix(matrix)
+    setColorMatrix(
+      resultMatrix.map((row) => (row.map(() => ("empty"))))
+    )
 
   } , [resultMatrix] )
+  
+
+  
+
+  // const [selectedColor, setSelectedColor] = useState(
+
+  // )
+  
+  function checkIfWin(resultMatrix, colorMatrix) {
+    for(let i = 0; i < nonoSize[0]; i++){
+      for(let j = 0; j < nonoSize[1]; j++){
+        const m1 = resultMatrix[i][j];
+        const m2 = colorMatrix[i][j];
+        if(m1 !== m2) {
+          return false
+        }
+      }
+    }
+    return true
+  }
 
   function onCellClick(e, i, j) {
     setColorMatrix((colorMatrix) => {
-      if(colorMatrix[i][j] !== '#ffffff') {
-        colorMatrix[i][j] = "#ffffff"
+      if(colorMatrix[i][j] === penColor) {
+        colorMatrix[i][j] = "empty"
       } else {
-        colorMatrix[i][j] = "#ff0000"
+        colorMatrix[i][j] = penColor
+      }
+      if(checkIfWin(resultMatrix, colorMatrix)) {
+        setTimeout(()=>alert("Você venceu!"),500)
       }
       return [...colorMatrix]
     })
   }
 
+  function onCSClick(e, color) {
+    setPenColor(color)
+  }
+
   return <>
     {/*<ColorSelector/>*/}
-    <table>
-      <tbody>
-        <tr>
-          <td>{/*<ColorToggler/>*/}</td>
-          <td><Clues type="top" size={nonoSize} colorMatrix={resultMatrix}/></td>
-        </tr>
-        <tr>
-          <td><Clues type="left" size={nonoSize} colorMatrix={resultMatrix}/></td>
-          <td><Grid onCellClick={onCellClick} colorMatrix={colorMatrix}/></td>
-        </tr>
-      </tbody>
-    </table>
+    <ColorSelector colorArray={colorArray} onColorSelectClick={onCSClick}/>
+    <div className="nono_container">
+      <table className="nono_table nono_top">
+        <tbody>
+          <tr className="nono_tr">
+            <td className="nono_td nono_top">{/*<ColorToggler/>*/}</td>
+            <td className="nono_td nono_top"><Clues type="top" size={nonoSize} resultMatrix={resultMatrix}/></td>
+          </tr>
+          <tr className="nono_tr">
+            <td className="nono_td nono_top"><Clues type="left" size={nonoSize} resultMatrix={resultMatrix}/></td>
+            <td className="nono_td nono_top"><Grid onCellClick={onCellClick} colorMatrix={colorMatrix}/></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </>
 }

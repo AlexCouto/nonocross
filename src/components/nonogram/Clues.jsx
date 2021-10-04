@@ -5,7 +5,7 @@ import "../../styles/styles.css"
 export default function Clues(props) {
   const ct = props.type
   const [iSize, jSize] = props.size
-  const colorMatrix = props.colorMatrix
+  const resultMatrix = props.resultMatrix
 
   const clueArray = useMemo(() => {
     let clueRagArray = []
@@ -18,8 +18,8 @@ export default function Clues(props) {
       let curLength = 0
       let scanLine = []
       for(let inner = 0; inner < innerSize; inner++) {
-        const color = (ct === 'left' ? colorMatrix[outer][inner] :
-          colorMatrix[inner][outer])
+        const color = (ct === 'left' ? resultMatrix[outer][inner] :
+          resultMatrix[inner][outer])
         if(color !== curColor) {
           if(curColor !== "empty") {
             scanLine.push({val:curLength, color:curColor})
@@ -44,7 +44,7 @@ export default function Clues(props) {
       }
     })
     return clueRagArray
-  }, [colorMatrix, ct, iSize, jSize])
+  }, [resultMatrix, ct, iSize, jSize])
 
   const clueInnerSize = useMemo(() => clueArray[0].length, [clueArray])
 
@@ -60,7 +60,9 @@ export default function Clues(props) {
       const bgColor = (clue.color !== "empty" ? clue.color : "#ffffff")
       clueRow.push(
         <td key={i + ',' + j}  className="nono_td">
-          <button style={{background: bgColor}} className="nono_cell">{clue.val === 0 ? "" : clue.val}</button>
+          <button style={{background: bgColor}} className="nono_cell">
+            {clue.val === 0 ? "\u00A0" : clue.val}
+          </button>
         </td>
       )
     }

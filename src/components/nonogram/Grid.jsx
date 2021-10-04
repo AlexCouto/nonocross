@@ -4,7 +4,7 @@ import '../../styles/styles.css'
 
 export default function Grid(props) {
   return (
-    <table className='nono_table' cellpadding="0" cellSpacing="0">
+    <table className='nono_table'>
       <tbody>
         {props.colorMatrix.map((row, i) => (
           <tr key={i.toString()} className='nono_tr'>
