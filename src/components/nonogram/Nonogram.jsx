@@ -11,13 +11,11 @@ export default function Nonogram(props) {
     ["#ff0000", "#ff0000", "#ff0000"]
   ])
   
-  const [colorMatrix, setColorMatrix] = useState([
-    ["#ffffff", "#ffffff", "#ffffff"],
-    ["#ffffff", "#ffffff", "#ffffff"],
-    ["#ffffff", "#ffffff", "#ffffff"]
-  ])
-
   let nonoSize = [resultMatrix.length, resultMatrix[0].length]
+  
+  const [colorMatrix, setColorMatrix] = useState(
+    resultMatrix.map((row) => (row.map(() => ("#ffffff"))))
+  )
 
   function onCellClick(e, i, j) {
     setColorMatrix((colorMatrix) => {
@@ -32,17 +30,19 @@ export default function Nonogram(props) {
 
   return <>
     {/*<ColorSelector/>*/}
-    <table>
-      <tbody>
-        <tr>
-          <td>{/*<ColorToggler/>*/}</td>
-          <td><Clues type="top" size={nonoSize} colorMatrix={resultMatrix}/></td>
-        </tr>
-        <tr>
-          <td><Clues type="left" size={nonoSize} colorMatrix={resultMatrix}/></td>
-          <td><Grid onCellClick={onCellClick} colorMatrix={colorMatrix}/></td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="nono_container">
+      <table className="nono_table nono_top">
+        <tbody>
+          <tr className="nono_tr">
+            <td className="nono_td nono_top">{/*<ColorToggler/>*/}</td>
+            <td className="nono_td nono_top"><Clues type="top" size={nonoSize} resultMatrix={resultMatrix}/></td>
+          </tr>
+          <tr className="nono_tr">
+            <td className="nono_td nono_top"><Clues type="left" size={nonoSize} resultMatrix={resultMatrix}/></td>
+            <td className="nono_td nono_top"><Grid onCellClick={onCellClick} colorMatrix={colorMatrix}/></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </>
 }
