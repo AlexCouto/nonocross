@@ -11,7 +11,7 @@ export default function Grid(props) {
             {row.map((color, j) => (
               <td key={i + ',' + j} className='nono_td'>
                 <Cell
-                  onClick={(e) => props.onCellClick(e, i, j)}
+                  onCellClick={(e) => props.onCellClick(e, i, j)}
                   color={color}
                 />
               </td>
