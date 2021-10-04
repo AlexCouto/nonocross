@@ -14,15 +14,31 @@ export default function Nonogram(props) {
   let nonoSize = [resultMatrix.length, resultMatrix[0].length]
   
   const [colorMatrix, setColorMatrix] = useState(
-    resultMatrix.map((row) => (row.map(() => ("#ffffff"))))
+    resultMatrix.map((row) => (row.map(() => ("empty"))))
   )
+
+  function checkIfWin(resultMatrix, colorMatrix) {
+    for(let i = 0; i < nonoSize[0]; i++){
+      for(let j = 0; j < nonoSize[1]; j++){
+        const m1 = resultMatrix[i][j];
+        const m2 = colorMatrix[i][j];
+        if(m1 !== m2) {
+          return false
+        }
+      }
+    }
+    return true
+  }
 
   function onCellClick(e, i, j) {
     setColorMatrix((colorMatrix) => {
-      if(colorMatrix[i][j] !== '#ffffff') {
-        colorMatrix[i][j] = "#ffffff"
+      if(colorMatrix[i][j] !== 'empty') {
+        colorMatrix[i][j] = "empty"
       } else {
         colorMatrix[i][j] = "#ff0000"
+      }
+      if(checkIfWin(resultMatrix, colorMatrix)) {
+        setTimeout(()=>alert("Você venceu!"),1)
       }
       return [...colorMatrix]
     })

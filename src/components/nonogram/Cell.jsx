@@ -6,7 +6,7 @@ export default function Cell(props) {
   return (
     <button className="nono_cell"
       onClick={(e) => props.onCellClick(e)}
-      style={{backgroundColor: props.color}}
-  ></button>
+      style={{backgroundColor: (props.color!=="empty"?props.color:"#ffffff")}}
+    ></button>
   )
 }
