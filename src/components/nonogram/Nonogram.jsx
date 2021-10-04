@@ -27,6 +27,10 @@ export default function Nonogram(props) {
     return uniqueColorArray
   }, [resultMatrix])
 
+  const [colorArrayStatus, setColorArrayStatus] = useState(
+    colorArray.map(()=>false)
+  )
+
   let nonoSize = [resultMatrix.length, resultMatrix[0].length]
   
   const [colorMatrix, setColorMatrix] = useState(
@@ -64,13 +68,18 @@ export default function Nonogram(props) {
     })
   }
 
-  function onCSClick(e, color) {
+  function onCSClick(e, color, i) {
+    setColorArrayStatus((colorArrayStatus) => {
+      colorArrayStatus = colorArrayStatus.fill(false)
+      colorArrayStatus[i] = true
+      return [...colorArrayStatus]
+    })
     setPenColor(color)
   }
 
   return <>
-    {/*<ColorSelector/>*/}
-    <ColorSelector colorArray={colorArray} onColorSelectClick={onCSClick}/>
+    <ColorSelector colorArray={colorArray} colorArrayStatus={colorArrayStatus} 
+      onColorSelectClick={onCSClick}/>
     <div className="nono_container">
       <table className="nono_table nono_top">
         <tbody>
