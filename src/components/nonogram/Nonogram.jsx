@@ -30,16 +30,17 @@ export default function Nonogram(props) {
     return uniqueColorArray
   }, [resultMatrix])
 
-  
+  const [colorArrayStatus, setColorArrayStatus] = useState(
+    colorArray.map(()=>false)
+  )
 
-  let nonoSize = ([resultMatrix.length, resultMatrix[0].length])
+  let nonoSize = [resultMatrix.length, resultMatrix[0].length]
 
   useEffect( () => {
-    setColorMatrix(
-      resultMatrix.map((row) => (row.map(() => ("empty"))))
-    )
-
-  } , [resultMatrix] )
+    setColorMatrix( resultMatrix.map((row) => (row.map(() => ("empty")))))
+    setPenColor("empty")
+    setColorArrayStatus(colorArray.map(()=>false))
+  } , [resultMatrix, colorArray] )
   
 
   
@@ -75,22 +76,27 @@ export default function Nonogram(props) {
     })
   }
 
-  function onCSClick(e, color) {
+  function onCSClick(e, color, i) {
+    setColorArrayStatus((colorArrayStatus) => {
+      colorArrayStatus = colorArrayStatus.fill(false)
+      colorArrayStatus[i] = true
+      return [...colorArrayStatus]
+    })
     setPenColor(color)
   }
 
   return <>
-    {/*<ColorSelector/>*/}
-    <ColorSelector colorArray={colorArray} onColorSelectClick={onCSClick}/>
+    <ColorSelector colorArray={colorArray} colorArrayStatus={colorArrayStatus} 
+      onColorSelectClick={onCSClick}/>
     <div className="nono_container">
       <table className="nono_table nono_top">
         <tbody>
           <tr className="nono_tr">
             <td className="nono_td nono_top">{/*<ColorToggler/>*/}</td>
-            <td className="nono_td nono_top"><Clues type="top" size={nonoSize} resultMatrix={resultMatrix}/></td>
+            <td className="nono_td nono_top"><Clues type="top" size={nonoSize} resultMatrix={resultMatrix} colorArray={colorArray}/></td>
           </tr>
           <tr className="nono_tr">
-            <td className="nono_td nono_top"><Clues type="left" size={nonoSize} resultMatrix={resultMatrix}/></td>
+            <td className="nono_td nono_top"><Clues type="left" size={nonoSize} resultMatrix={resultMatrix} colorArray={colorArray} /></td>
             <td className="nono_td nono_top"><Grid onCellClick={onCellClick} colorMatrix={colorMatrix}/></td>
           </tr>
         </tbody>

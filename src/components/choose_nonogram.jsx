@@ -34,7 +34,7 @@ export default function ChooseNonogram() {
     const classes = useStyles();
     const [nonograms,setNanograms] = useState([])
 
-    const [ ResultMatrix, setResultMatrix ] = useResultMatrixContext()
+    const [ resultMatrix, setresultMatrix ] = useResultMatrixContext()
 
     useEffect( () => {
         async function getNonos() {
@@ -49,7 +49,7 @@ export default function ChooseNonogram() {
     },[])
 
     function onClickHandler(pixel_color){
-        setResultMatrix(pixel_color)
+        setresultMatrix(pixel_color)
     }
 
     return(

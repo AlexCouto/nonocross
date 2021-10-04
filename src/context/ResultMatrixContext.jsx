@@ -3,7 +3,7 @@ import React , { createContext , useState , useContext } from 'react';
 const ResultMatrixContext = createContext();
 
 export default function ResultMatrixProvider({children}) {
-    const [ResultMatrix, setResultMatrix] = useState([
+    const [resultMatrix, setresultMatrix] = useState([
         ["#ff0000", "empty", "#ff0000"],
         ["empty", "#ff0000", "empty"],
         ["#ff0000", "#ff0000", "#ff0000"]
@@ -12,8 +12,8 @@ export default function ResultMatrixProvider({children}) {
     return(
         <ResultMatrixContext.Provider
             value={[
-                ResultMatrix,
-                setResultMatrix
+                resultMatrix,
+                setresultMatrix
             ]}
         >
             {children}
@@ -23,6 +23,6 @@ export default function ResultMatrixProvider({children}) {
 
 export function useResultMatrixContext(){
     const context = useContext(ResultMatrixContext)
-   const [ ResultMatrix , setResultMatrix ] = context;
-    return [ ResultMatrix ,  setResultMatrix]
+   const [ resultMatrix , setresultMatrix ] = context;
+    return [ resultMatrix ,  setresultMatrix]
 }
