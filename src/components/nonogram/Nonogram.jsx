@@ -1,22 +1,42 @@
-import React, { useState } from "react"
-//import ColorSelector from './ColorSelector'
+import React, { useState, useMemo } from "react"
+import ColorSelector from './ColorSelector'
 //import ColorToggler from './ColorToggler'
 import Clues from './Clues'
 import Grid from './Grid'
 
 export default function Nonogram(props) {
   const [resultMatrix, setResultMatrix] = useState([
-    ["#ff0000", "empty", "#ff0000"],
+    ["#ff0000", "empty", "#00ff00"],
     ["empty", "#ff0000", "empty"],
     ["#ff0000", "#ff0000", "#ff0000"]
   ])
-  
+
+  const [penColor, setPenColor] = useState(
+    "empty"
+  )
+
+  const colorArray = useMemo(() => {
+    const uniqueColorArray = []
+    for(const row of resultMatrix) {
+      for(const color of row) {
+        if(color !== "empty" && !uniqueColorArray.includes(color)) {
+          uniqueColorArray.push(color)
+        }
+      }
+    }
+    return uniqueColorArray
+  }, [resultMatrix])
+
   let nonoSize = [resultMatrix.length, resultMatrix[0].length]
   
   const [colorMatrix, setColorMatrix] = useState(
     resultMatrix.map((row) => (row.map(() => ("empty"))))
   )
 
+  // const [selectedColor, setSelectedColor] = useState(
+
+  // )
+  
   function checkIfWin(resultMatrix, colorMatrix) {
     for(let i = 0; i < nonoSize[0]; i++){
       for(let j = 0; j < nonoSize[1]; j++){
@@ -32,20 +52,25 @@ export default function Nonogram(props) {
 
   function onCellClick(e, i, j) {
     setColorMatrix((colorMatrix) => {
-      if(colorMatrix[i][j] !== 'empty') {
+      if(colorMatrix[i][j] === penColor) {
         colorMatrix[i][j] = "empty"
       } else {
-        colorMatrix[i][j] = "#ff0000"
+        colorMatrix[i][j] = penColor
       }
       if(checkIfWin(resultMatrix, colorMatrix)) {
-        setTimeout(()=>alert("Você venceu!"),1)
+        setTimeout(()=>alert("Você venceu!"),500)
       }
       return [...colorMatrix]
     })
   }
 
+  function onCSClick(e, color) {
+    setPenColor(color)
+  }
+
   return <>
     {/*<ColorSelector/>*/}
+    <ColorSelector colorArray={colorArray} onColorSelectClick={onCSClick}/>
     <div className="nono_container">
       <table className="nono_table nono_top">
         <tbody>
