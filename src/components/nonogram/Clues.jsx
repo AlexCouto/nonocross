@@ -1,4 +1,6 @@
 import React, {useMemo} from "react";
+import "../../styles/styles.css"
+
 
 export default function Clues(props) {
   const ct = props.type
@@ -56,8 +58,8 @@ export default function Clues(props) {
       const clue = (ct === 'left' ? clueArray[i][j] : clueArray[j][i])
       const bgColor = (clue.color !== "empty" ? clue.color : "#ffffff")
       clueRow.push(
-        <td key={i + ',' + j} style={{background: bgColor}}>
-          <div>{clue.val === 0 ? "" : clue.val}</div>
+        <td key={i + ',' + j}  className="nono_td">
+          <button style={{background: bgColor}} className="nono_cell">{clue.val === 0 ? "" : clue.val}</button>
         </td>
       )
     }
@@ -65,7 +67,7 @@ export default function Clues(props) {
   }
   
   return (
-    <table>
+    <table className="nono_table">
       <tbody>
         {clueMatrix}
       </tbody>
