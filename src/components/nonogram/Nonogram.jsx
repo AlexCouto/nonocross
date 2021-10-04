@@ -6,21 +6,27 @@ import Grid from './Grid'
 
 export default function Nonogram(props) {
   const [resultMatrix, setResultMatrix] = useState([
-    ["#ff0000", "#ff0000"],
-    ["#ff0000", "#ff0000"]
+    ["#ff0000", "empty", "#ff0000"],
+    ["empty", "#ff0000", "empty"],
+    ["#ff0000", "#ff0000", "#ff0000"]
   ])
   
   const [colorMatrix, setColorMatrix] = useState([
-    ["#ffffff", "#ffffff"],
-    ["#ffffff", "#ffffff"]
+    ["#ffffff", "#ffffff", "#ffffff"],
+    ["#ffffff", "#ffffff", "#ffffff"],
+    ["#ffffff", "#ffffff", "#ffffff"]
   ])
 
-  let nonoSize = [2,2]
+  let nonoSize = [resultMatrix.length, resultMatrix[0].length]
 
   function onCellClick(e, i, j) {
     setColorMatrix((colorMatrix) => {
-      colorMatrix[i][j] = "#ff0000"
-      return colorMatrix
+      if(colorMatrix[i][j] !== '#ffffff') {
+        colorMatrix[i][j] = "#ffffff"
+      } else {
+        colorMatrix[i][j] = "#ff0000"
+      }
+      return [...colorMatrix]
     })
   }
 

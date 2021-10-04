@@ -36,7 +36,8 @@ export default function Clues(props) {
     const maxInnerSize = Math.max(...clueRagArray.map((line) => (line.length)))
 
     clueRagArray.forEach((line) => {
-      for(let i = 0; i < maxInnerSize; i++) {
+      let len = line.length
+      for(let i = 0; i < maxInnerSize - len; i++) {
         line.unshift({val:0, color:"empty"})
       }
     })
