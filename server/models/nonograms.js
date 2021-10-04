@@ -6,7 +6,7 @@ const NonogramSchema = new mongoose.Schema({
         required: true
     },
     pixel_color:{ 
-        type: [[Number]],
+        type: [[String]],
         required: true
     }
 })

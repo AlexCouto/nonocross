@@ -1,23 +1,31 @@
-import React, { useState } from "react"
+import React, { useState ,  useEffect } from "react"
 //import ColorSelector from './ColorSelector'
 //import ColorToggler from './ColorToggler'
 import Clues from './Clues'
 import Grid from './Grid'
+import { useResultMatrixContext } from "../../context/ResultMatrixContext"
 
 export default function Nonogram(props) {
-  const [resultMatrix, setResultMatrix] = useState([
-    ["#ff0000", "empty", "#ff0000"],
-    ["empty", "#ff0000", "empty"],
-    ["#ff0000", "#ff0000", "#ff0000"]
-  ])
-  
-  const [colorMatrix, setColorMatrix] = useState([
-    ["#ffffff", "#ffffff", "#ffffff"],
-    ["#ffffff", "#ffffff", "#ffffff"],
-    ["#ffffff", "#ffffff", "#ffffff"]
-  ])
 
-  let nonoSize = [resultMatrix.length, resultMatrix[0].length]
+  const [resultMatrix, setResultMatrix ] = useResultMatrixContext()
+
+  const [colorMatrix, setColorMatrix] = useState([])
+  
+  let nonoSize = ([resultMatrix.length, resultMatrix[0].length])
+
+  useEffect( () => {
+    let matrix = []
+    for (let i = 0; i < nonoSize[0]; i++){
+        let row = []
+      for(let j = 0; j < nonoSize[1] ; j++){
+        row.push("#ffffff")
+      }
+      matrix.push(row)
+    }
+
+    setColorMatrix(matrix)
+
+  } , [resultMatrix] )
 
   function onCellClick(e, i, j) {
     setColorMatrix((colorMatrix) => {

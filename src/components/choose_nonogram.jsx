@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState  } from 'react';
 import axios from 'axios';
 
 import { Button , Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles';
+
+import {useResultMatrixContext} from "../context/ResultMatrixContext"
 
 const useStyles = makeStyles(theme => ({
     gridContainer:{
@@ -32,6 +34,8 @@ export default function ChooseNonogram() {
     const classes = useStyles();
     const [nonograms,setNanograms] = useState([])
 
+    const [ ResultMatrix, setResultMatrix ] = useResultMatrixContext()
+
     useEffect( () => {
         async function getNonos() {
             try {
@@ -44,6 +48,10 @@ export default function ChooseNonogram() {
         getNonos()
     },[])
 
+    function onClickHandler(pixel_color){
+        setResultMatrix(pixel_color)
+    }
+
     return(
         
         <Grid container spacing={2} className={classes.gridContainer}>
@@ -55,6 +63,7 @@ export default function ChooseNonogram() {
                 <Button 
                     variant='contained' 
                     className={classes.button}
+                    onClick={() => onClickHandler(nono.pixel_color)}
                 >
                     {nono.name}
                 </Button>
