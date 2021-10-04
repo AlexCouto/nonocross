@@ -3,11 +3,12 @@ import React , { createContext , useState , useContext } from 'react';
 const ResultMatrixContext = createContext();
 
 export default function ResultMatrixProvider({children}) {
-    const [resultMatrix, setresultMatrix] = useState([
-        ["#ff0000", "empty", "#ff0000"],
-        ["empty", "#ff0000", "empty"],
-        ["#ff0000", "#ff0000", "#ff0000"]
-      ])
+    // matriz default que aparece quando o site é aberto
+    const [resultMatrix, setresultMatrix] = useState(
+        [["#ff0000","empty","#00ff00"],
+          ["empty","#ff0000","empty"],
+        ["#ff0000","#ff0000","#ff0000"]]
+      )
 
     return(
         <ResultMatrixContext.Provider
