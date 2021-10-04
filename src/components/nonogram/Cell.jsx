@@ -5,8 +5,8 @@ import '../../styles/styles.css'
 export default function Cell(props) {
   return (
     <button className="nono_cell"
-      onClick={() => {props.onClick()}}
+      onClick={(e) => props.onCellClick(e)}
       style={{backgroundColor: props.color}}
-    ></button>
+  ></button>
   )
 }
