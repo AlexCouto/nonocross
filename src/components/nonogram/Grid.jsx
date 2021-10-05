@@ -5,7 +5,7 @@ import { useHoverContext } from '../../context/HoverContext'
 
 export default function Grid(props) {
 
-  const [hover,setHover] = useHoverContext()
+  const [ ,setHover] = useHoverContext()
 
   function onEnterHandler(i,j)
   {

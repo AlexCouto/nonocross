@@ -9,7 +9,7 @@ export default function Clues(props) {
   const [iSize, jSize] = props.size
   const resultMatrix = props.resultMatrix
   const [fontColor , setfontColor] = useState({})
-  const [hover , setHover] = useHoverContext()
+  const [hover] = useHoverContext()
 
   const clueArray = useMemo(() => {
     let clueRagArray = []
@@ -70,7 +70,7 @@ export default function Clues(props) {
       fontcolorDict[cellColor] = text_color
     }
     setfontColor(fontcolorDict)
-  } , [resultMatrix])
+  } , [resultMatrix , props.colorArray])
   
 
   let clueISize = (ct === 'left' ? iSize : clueInnerSize)

@@ -9,7 +9,7 @@ import HoverContextProvider from "../../context/HoverContext"
 
 export default function Nonogram(props) {
 
-  const [resultMatrix, setResultMatrix ] = useResultMatrixContext()
+  const [resultMatrix ] = useResultMatrixContext()
 
   const [colorMatrix, setColorMatrix] = useState(
     resultMatrix.map((row) => (row.map(() => ("empty"))))
