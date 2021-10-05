@@ -86,7 +86,7 @@ export default function Nonogram(props) {
     setPenColor(color)
   }
 
-  return <>
+  return <div>
     <ColorSelector colorArray={colorArray} colorArrayStatus={colorArrayStatus} 
       onColorSelectClick={onCSClick}/>
     <div className="nono_container">
@@ -105,5 +105,5 @@ export default function Nonogram(props) {
         </HoverContextProvider>
       </table>
     </div>
-  </>
+  </div>
 }

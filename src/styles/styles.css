@@ -1,6 +1,4 @@
 .nono_container {
-    width: 200px;
-    height: 200px;
     display:flex;
     align-items: center;
     justify-self: center;
@@ -35,6 +33,8 @@
     border: 0px;
     width: 30px;
     height: 30px;
+    min-width: 30px;
+    min-height: 30px;
     margin: 0px;
     display: table-cell;
     vertical-align: middle;
@@ -45,7 +45,8 @@
 }
 
 .selected {
-    border:2px yellow solid;
+    outline:2px yellow solid;
+    outline-offset: -2px;
 }
 
 .hovered{
@@ -65,5 +66,5 @@
 
 .nono_cell.color_selector {
     position: relative;
-    
+    justify-content: left;
 }
