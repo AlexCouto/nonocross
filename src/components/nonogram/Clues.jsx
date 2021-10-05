@@ -1,6 +1,7 @@
 import React, {useMemo , useState , useEffect } from "react";
 import colorLuminance  from "../../colorLuminance";
 import "../../styles/styles.css"
+import { useHoverContext } from "../../context/HoverContext";
 
 
 export default function Clues(props) {
@@ -8,6 +9,7 @@ export default function Clues(props) {
   const [iSize, jSize] = props.size
   const resultMatrix = props.resultMatrix
   const [fontColor , setfontColor] = useState({})
+  const [hover , setHover] = useHoverContext()
 
   const clueArray = useMemo(() => {
     let clueRagArray = []
@@ -83,7 +85,12 @@ export default function Clues(props) {
       const bgColor = (clue.color !== "empty" ? clue.color : "#ffffff")
       clueRow.push(
         <td key={i + ',' + j}  className="nono_td">
-          <button style={{background: bgColor , color: fontColor[bgColor]}} className="nono_cell">
+          <button  
+            style={{background: bgColor , color: fontColor[bgColor]}} 
+            className={ ct === 'left' ? 
+                ( hover[0] === i ? "nono_cell hovered" : "nono_cell" ) :
+                ( hover[1] === j ? "nono_cell hovered" : "nono_cell") }
+            >
             {clue.val === 0 ? "\u00A0" : clue.val}
           </button>
         </td>

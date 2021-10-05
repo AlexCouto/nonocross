@@ -5,6 +5,7 @@ import ColorSelector from './ColorSelector'
 import Clues from './Clues'
 import Grid from './Grid'
 import { useResultMatrixContext } from "../../context/ResultMatrixContext"
+import HoverContextProvider from "../../context/HoverContext"
 
 export default function Nonogram(props) {
 
@@ -90,16 +91,18 @@ export default function Nonogram(props) {
       onColorSelectClick={onCSClick}/>
     <div className="nono_container">
       <table className="nono_table nono_top">
-        <tbody>
-          <tr className="nono_tr">
-            <td className="nono_td nono_top">{/*<ColorToggler/>*/}</td>
-            <td className="nono_td nono_top"><Clues type="top" size={nonoSize} resultMatrix={resultMatrix} colorArray={colorArray}/></td>
-          </tr>
-          <tr className="nono_tr">
-            <td className="nono_td nono_top"><Clues type="left" size={nonoSize} resultMatrix={resultMatrix} colorArray={colorArray} /></td>
-            <td className="nono_td nono_top"><Grid onCellClick={onCellClick} colorMatrix={colorMatrix}/></td>
-          </tr>
-        </tbody>
+        <HoverContextProvider>
+          <tbody>
+            <tr className="nono_tr">
+              <td className="nono_td nono_top">{/*<ColorToggler/>*/}</td>
+              <td className="nono_td nono_top"><Clues type="top" size={nonoSize} resultMatrix={resultMatrix} colorArray={colorArray}/></td>
+            </tr>
+            <tr className="nono_tr">
+              <td className="nono_td nono_top"><Clues type="left" size={nonoSize} resultMatrix={resultMatrix} colorArray={colorArray} /></td>
+              <td className="nono_td nono_top"><Grid onCellClick={onCellClick} colorMatrix={colorMatrix}/></td>
+            </tr>
+          </tbody>
+        </HoverContextProvider>
       </table>
     </div>
   </>
