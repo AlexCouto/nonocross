@@ -1,16 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv').config({ path: '../.env' } )
 
 const app = express();
+
+app.set('trust proxy', 1);
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-
 mongoose.Promise = global.Promise;
 
-mongoose.connect("mongodb://localhost/nonocross", {
+mongoose.connect( process.env.DB_CONNECTION, {
     useNewUrlParser: true , 
     useUnifiedTopology: true }
     ).then( () => {
