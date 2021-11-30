@@ -39,7 +39,7 @@ export default function ChooseNonogram() {
     useEffect( () => {
         async function getNonos() {
             try {
-                const response = await axios.get('/controller/get_nonograms');
+                const response = await axios.get('/api/get_nonograms');
                 setNanograms(response.data)
             } catch (error) {
                 console.error(error);

@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config({ path: '../.env' } )
 
-const app = express();
+const control_router = require('./controllers');
 
-app.set('trust proxy', 1);
+const app = express();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -21,6 +21,6 @@ mongoose.connect( process.env.DB_CONNECTION, {
         console.log("Houve um erro ao se conectar ao banco de dados: "+err)}
 )
 
-require('./controllers')(app);
+app.use('/api', control_router);
 
-app.listen(8081);
+module.exports = app;

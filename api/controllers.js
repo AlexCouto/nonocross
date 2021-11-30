@@ -28,4 +28,4 @@ router.post('/create_nonogram' , async (req,res) =>{
     }
 })
 
-module.exports = app => app.use('/controller', router);
+module.exports = router;
