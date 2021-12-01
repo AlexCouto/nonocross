@@ -1,10 +1,12 @@
 import React, { useEffect, useState  } from 'react';
 import axios from 'axios';
+import Loader from "react-loader-spinner";
 
 import { Button , Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles';
 
 import {useResultMatrixContext} from "../context/ResultMatrixContext"
+import { set } from 'mongoose';
 
 const useStyles = makeStyles(theme => ({
     gridContainer:{
@@ -26,6 +28,9 @@ const useStyles = makeStyles(theme => ({
         fontWeight: 'bold',
         margintop: 50,
         width: 220
+    },
+    loader: {
+      marginTop: 70  
     }
 }));
 
@@ -33,6 +38,7 @@ export default function ChooseNonogram() {
 
     const classes = useStyles();
     const [nonograms,setNanograms] = useState([])
+    const [loading,setLoading] = useState(true);
 
     const [ , setresultMatrix ] = useResultMatrixContext()
 
@@ -41,6 +47,7 @@ export default function ChooseNonogram() {
             try {
                 const response = await axios.get('/api/get_nonograms');
                 setNanograms(response.data)
+                setLoading(false)
             } catch (error) {
                 console.error(error);
             }
@@ -55,6 +62,13 @@ export default function ChooseNonogram() {
     return(
         
         <Grid container spacing={2} className={classes.gridContainer}>
+            {loading ? <Loader 
+                        className={classes.loader} 
+                        type="Oval" 
+                        color="#00ace6"
+                        height={160} width={160}
+                        /> : ""  }
+            
             <Grid item xs = {12}className={classes.text}>
                 {nonograms.length ? "Escolha um nonograma" : ""  }
             </Grid>

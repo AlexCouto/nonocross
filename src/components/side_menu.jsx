@@ -38,7 +38,6 @@ export default function SideMenu() {
                 onOpen={() => setOpen(true)}
                 onClose={() => setOpen(false)}
             >
-                
                 <ChooseNonogram/>
             </SwipeableDrawer>
         </>
