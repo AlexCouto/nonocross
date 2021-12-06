@@ -6,7 +6,6 @@ import { Button , Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles';
 
 import {useResultMatrixContext} from "../context/ResultMatrixContext"
-import { set } from 'mongoose';
 
 const useStyles = makeStyles(theme => ({
     gridContainer:{
@@ -45,7 +44,7 @@ export default function ChooseNonogram() {
     useEffect( () => {
         async function getNonos() {
             try {
-                const response = await axios.get('/api/get_nonograms');
+                const response = await axios.get('/api/controllers/get_nonograms',{withCredentials: true});
                 setNanograms(response.data)
                 setLoading(false)
             } catch (error) {
