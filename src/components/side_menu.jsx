@@ -27,7 +27,6 @@ export default function SideMenu() {
 
     const [open, setOpen] = useState(false);
 
-
     return (
         <>
             <IconButton onClick={() => setOpen(true)}>
