@@ -1,14 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv').config({ path: '../.env' } )
+const session = require("express-session");
 
-const control_router = require('./controllers');
+var MongoDBStore = require('connect-mongodb-session')(session);
+
+
+const passport = require('passport');
+const dotenv = require('dotenv').config({ path: '../.env' } )
 
 const app = express();
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 
 mongoose.Promise = global.Promise;
 
@@ -21,6 +26,35 @@ mongoose.connect( process.env.DB_CONNECTION, {
         console.log("Houve um erro ao se conectar ao banco de dados: "+err)}
 )
 
-app.use('/api', control_router);
+
+var store = new MongoDBStore({ uri: process.env.DB_CONNECTION, collection: 'mySessions' });
+
+store.on('error', function(error) { console.log(error); } );
+  
+
+app.use(session({
+    secret: 'This is a secret',
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+    },
+    store: store,
+    // Boilerplate options, see:
+    // * https://www.npmjs.com/package/express-session#resave
+    // * https://www.npmjs.com/package/express-session#saveuninitialized
+    resave: true,
+    saveUninitialized: true
+  }));
+  
+
+const control_router = require('./controllers');
+const auth_router = require('./auth.js');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+app.use('/api/controllers', control_router);
+app.use('/api/auth', auth_router )
 
 module.exports = app;

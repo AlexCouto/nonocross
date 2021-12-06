@@ -1,9 +1,13 @@
 const express = require('express')
-const Nonogramas = require('./models/nonograms')
+const Nonogramas = require('./models/nonograms');
+const user = require('./models/user');
 
 const router = express.Router();
 
 router.get('/get_nonograms' , async (req,res) =>{
+    if(req.isAuthenticated()){
+        console.log("autenticado");
+    }else{console.log("nao autenticado");}
     try{    
         Nonogramas.find({} , (err, all_nonos) => {
             if(err){
