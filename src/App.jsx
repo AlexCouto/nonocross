@@ -11,8 +11,6 @@ export default function App() {
 
   return (
     <div className="App">
-
-      
         <ResultMatrixProvider>
           <Header/>
           <header className="App-header">

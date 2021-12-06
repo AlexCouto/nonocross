@@ -1,6 +1,7 @@
 import React from 'react';
 import SideMenu from './side_menu.jsx'
 import { makeStyles } from '@material-ui/styles';
+import { Button } from '@material-ui/core';
 import { useAuthContext } from '../context/auth';
 import axios from 'axios';
 
@@ -21,8 +22,13 @@ const useStyles = makeStyles(theme => ({
         fontSize: 30,
         marginTop: 8
     },
-    logout:{
-        float: 'right',
+    logoutButton: {
+        borderColor: 'white', 
+        color: '#FFFFFF',
+        float:'right',
+        width: 100,
+        marginRight: 10,
+        marginTop: 6,
     }
 }));
 
@@ -49,8 +55,8 @@ export default function Header(){
             <section className={classes.title}>
                 NonoCross
             </section>
-            <section className={classes.logout}>
-                <button onClick={()=>logout()}>Log Out</button>
+            <section >
+                { isAuthenticated ? <Button variant="outlined" className={classes.logoutButton}onClick={()=>logout()}>LogOut</Button> : null}
             </section>
         </section>
     )
