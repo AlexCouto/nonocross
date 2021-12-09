@@ -1,4 +1,4 @@
-import React, {useMemo } from "react";
+import React, {useMemo, useState} from "react";
 import "../../styles/styles.css"
 import { useHoverContext } from "../../context/HoverContext";
 
@@ -7,8 +7,9 @@ export default function Clues(props) {
   const ct = props.type
   const [iSize, jSize] = props.size
   const resultMatrix = props.resultMatrix
+  const changeColor = props.changeColor
   const [hover] = useHoverContext()
-
+  
   const clueArray = useMemo(() => {
     let clueRagArray = []
     
@@ -50,6 +51,22 @@ export default function Clues(props) {
 
   const clueInnerSize = useMemo(() => clueArray[0].length, [clueArray])
 
+  const [crossArray, setCrossArray] = useState(
+    clueArray.map((row) => (row.map(() => false)))
+  )
+
+  function onClueClick(e, i, j, cluecolor, cluenum) {
+    if(cluenum !== 0) {
+      if(e.button === 0) {
+        changeColor(cluecolor)
+      } else if(e.button === 2) {
+        setCrossArray((crossArray) => {
+          crossArray[i][j] = !crossArray[i][j]
+          return [...crossArray]
+        })
+      }
+    }
+  }
 
   let clueISize = (ct === 'left' ? iSize : clueInnerSize)
   let clueJSize = (ct === 'left' ? clueInnerSize : jSize)
@@ -60,15 +77,32 @@ export default function Clues(props) {
     let clueRow = []
     for(let j = 0; j < clueJSize; j++) {
       const clue = (ct === 'left' ? clueArray[i][j] : clueArray[j][i])
+      const cross = (ct === 'left' ? crossArray[i][j] : crossArray[j][i])
       const bgColor = (clue.color !== "empty" ? clue.color : "#ffffff")
       clueRow.push(
         <td key={i + ',' + j}  className="nono_td">
-          <button  
-            style={{background: bgColor , color: props.fontColor[bgColor]}} 
-            className={ ct === 'left' ? 
-                ( hover[0] === i ? "nono_cell hovered" : "nono_cell" ) :
-                ( hover[1] === j ? "nono_cell hovered" : "nono_cell") }
-            >
+          <button
+            onMouseDown={(e)=>{
+              onClueClick(e, (ct==='left'?i:j), (ct==='left'?j:i), bgColor, clue.val)}
+            }
+            onContextMenu={(e)=>{e.preventDefault()}}
+            style={{
+              background: bgColor,
+              color: props.fontColor[bgColor],
+              backgroundImage: (cross===true
+                ? (props.fontColor[bgColor]==="#000000"
+                   ? "url('cross.gif')"
+                   : "url('crossinv.gif')")
+                : "none"),
+              backgroundSize: 'cover',
+              backgroundPosition: "center center",
+              backgroundRepeat: "no-repeat"
+            }} 
+            className={ ct === 'left'
+              ? ( hover[0] === i ? "nono_cell hovered" : "nono_cell" )
+              : ( hover[1] === j ? "nono_cell hovered" : "nono_cell")
+            }
+          >
             {clue.val === 0 ? "\u00A0" : clue.val}
           </button>
         </td>

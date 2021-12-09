@@ -71,6 +71,8 @@
     height: 100%;
     margin: 0px;
     /* border:none; */
+    padding: 0px;
+    background-size: cover;
     border: 0.5px #8f8f8f solid;
     
     /* border: 1px solid; */

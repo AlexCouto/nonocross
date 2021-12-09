@@ -7,7 +7,7 @@ export default function Cell(props) {
     <button className="nono_cell"
       onMouseDown={(e) => props.onCellClick(e)}
       onContextMenu={(e) => {e.preventDefault()}}
-      onMouseEnter={()=> props.onCellEnter()}
+      onMouseEnter={(e)=> props.onCellEnter(e)}
       style={{
         backgroundColor: (props.color!=="empty" && props.color!=="crossed" ?
                           props.color : "#ffffff"),
