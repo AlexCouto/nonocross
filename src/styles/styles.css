@@ -40,6 +40,18 @@
     vertical-align: middle;
 }
 
+.nono_td_selector {
+    padding: 0px;
+    border: 0px;
+    width: 40px;
+    height: 50px;
+    min-width: 40px;
+    min-height: 50px;
+    margin: 0px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .nono_td.nono_top {
     border:4px black solid;
 }
@@ -65,6 +77,7 @@
 }
 
 .nono_cell.color_selector {
+
     position: relative;
     justify-content: left;
 }
