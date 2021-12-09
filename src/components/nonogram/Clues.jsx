@@ -1,5 +1,4 @@
-import React, {useMemo , useState , useEffect } from "react";
-import colorLuminance  from "../../colorLuminance";
+import React, {useMemo } from "react";
 import "../../styles/styles.css"
 import { useHoverContext } from "../../context/HoverContext";
 
@@ -8,7 +7,6 @@ export default function Clues(props) {
   const ct = props.type
   const [iSize, jSize] = props.size
   const resultMatrix = props.resultMatrix
-  const [fontColor , setfontColor] = useState({})
   const [hover] = useHoverContext()
 
   const clueArray = useMemo(() => {
@@ -52,26 +50,6 @@ export default function Clues(props) {
 
   const clueInnerSize = useMemo(() => clueArray[0].length, [clueArray])
 
-  // Definindo cor da fonte do texto dentro da clue
-  useEffect( () => {
-    let fontcolorDict = {}
-    for(let i = 0 ; i < props.colorArray.length ; i++)
-    {
-      let text_color
-      let cellColor = props.colorArray[i]
-
-      // a partir da luminância da cor, escolher entre preto ou branco a cor de fonte que possuir
-      // maior de contraste conforme https://www.w3.org/WAI/GL/wiki/Contrast_ratio
-      if( colorLuminance(cellColor) > 0.179)
-        text_color = "#000000"
-      else
-        text_color = "#ffffff"
-      
-      fontcolorDict[cellColor] = text_color
-    }
-    setfontColor(fontcolorDict)
-  } , [resultMatrix , props.colorArray])
-  
 
   let clueISize = (ct === 'left' ? iSize : clueInnerSize)
   let clueJSize = (ct === 'left' ? clueInnerSize : jSize)
@@ -86,7 +64,7 @@ export default function Clues(props) {
       clueRow.push(
         <td key={i + ',' + j}  className="nono_td">
           <button  
-            style={{background: bgColor , color: fontColor[bgColor]}} 
+            style={{background: bgColor , color: props.fontColor[bgColor]}} 
             className={ ct === 'left' ? 
                 ( hover[0] === i ? "nono_cell hovered" : "nono_cell" ) :
                 ( hover[1] === j ? "nono_cell hovered" : "nono_cell") }

@@ -1,6 +1,7 @@
 import React , { useState, useCallback } from 'react';
 
-import { Tabs,Tab,Box, TextField , Button } from '@material-ui/core';
+import { Tabs,Tab,Box, TextField , Button ,Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab'
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles } from '@material-ui/styles';
 
@@ -48,10 +49,22 @@ function TabPanel({ children, value, index }) {
     return <div>{value === index && <Box p={1}>{children}</Box>}</div>;
 }
 
+
+
 export default function Login(){
 
     const [ , setIsAuthenticated ] = useAuthContext();
     const [value, setValue] = useState(0);
+
+    // para os alertas
+    const [failopen, setFailOpen] = useState(false);
+    const [successopen, setSuccessOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleClose = () => {
+      setSuccessOpen(false);
+      setFailOpen(false);
+    };
 
     async function login(email,password) {
         try {
@@ -61,8 +74,10 @@ export default function Login(){
               })
               .then(function (response) {
                 console.log(response)
-                if(response.data.success === true){
-                    setIsAuthenticated(true);
+                if(response.data.success === true){ setIsAuthenticated(true); }
+                else{
+                  setErrorMessage('Credenciais Inválidas');
+                  setFailOpen(true);
                 }
               })
               .catch(function (error) {
@@ -81,7 +96,16 @@ export default function Login(){
                 password: password
               })
               .then(function (response) {
-                console.log(response)
+                if(response.data.success) {
+                  setSuccessOpen(true);
+                  document.getElementById("reg_name").value = '';
+                  document.getElementById("reg_email").value ='';
+                  document.getElementById("reg_password").value ='';
+                }
+                else{
+                  setErrorMessage('Falha ao realizar o cadastro');
+                  setFailOpen(true);
+                }
               })
               .catch(function (error) {
                 console.log(error);
@@ -99,7 +123,7 @@ export default function Login(){
 
     return(
         <div className={classes.container}>
-        <Tabs
+          <Tabs
             value={value}
             onChange={handleChange}
             TabIndicatorProps={{style: {backgroundColor:"#63235A"}}}
@@ -175,6 +199,17 @@ export default function Login(){
                                                 document.getElementById("reg_password").value)}}>Cadastrar</Button>
             </TabPanel>
           </SwipeableViews>
+
+          <Snackbar open={successopen} autoHideDuration={4500} onClose={handleClose}>
+            <Alert  onClose={handleClose} className="alert" severity="success" variant="filled" sx={{ width: '100%' }}>
+              Usuário cadastrado com sucesso!
+            </Alert>
+          </Snackbar>
+          <Snackbar open={failopen} autoHideDuration={4500} onClose={handleClose}>
+            <Alert  onClose={handleClose} className="alert" severity="error" variant="filled" sx={{ width: '100%' }}>
+              {errorMessage}
+            </Alert>
+          </Snackbar>
         </div>
     )
 };
