@@ -56,7 +56,8 @@ export default function Nonogram(props) {
         const m1 = resultMatrix[i][j];
         const m2 = colorMatrix[i][j];
         if(m1 !== m2) {
-          return false
+          if(!(m1 === "empty" && m2 === "crossed"))
+            return false
         }
       }
     }
@@ -65,10 +66,18 @@ export default function Nonogram(props) {
 
   function onCellClick(e, i, j) {
     setColorMatrix((colorMatrix) => {
-      if(colorMatrix[i][j] === penColor) {
-        colorMatrix[i][j] = "empty"
-      } else {
-        colorMatrix[i][j] = penColor
+      if(e.button === 0) {
+        if(colorMatrix[i][j] === penColor) {
+          colorMatrix[i][j] = "empty"
+        } else {
+          colorMatrix[i][j] = penColor
+        }
+      } else if(e.button === 2) {
+        if(colorMatrix[i][j] === "crossed") {
+          colorMatrix[i][j] = "empty"
+        } else {
+          colorMatrix[i][j] = "crossed"
+        }
       }
       if(checkIfWin(resultMatrix, colorMatrix)) {
         setTimeout(()=>alert("Você venceu!"),500)
