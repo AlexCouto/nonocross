@@ -76,6 +76,10 @@
     /* border: 1px solid; */
 }
 
+.nono_cell:focus-visible {
+    outline: none
+}
+
 .nono_cell.color_selector {
 
     position: relative;
