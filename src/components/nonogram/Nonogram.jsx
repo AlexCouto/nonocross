@@ -120,7 +120,8 @@ export default function Nonogram(props) {
     setPenColor(color)
   }
 
-  return <div onKeyPress={onKeyboardPress}>
+  return (
+  <div onKeyPress={onKeyboardPress}>
     <ColorSelector colorArray={colorArray} colorArrayStatus={colorArrayStatus} fontColor={fontColor}
       onColorSelectClick={onCSClick}/>
     <div className="nono_container">
@@ -140,4 +141,5 @@ export default function Nonogram(props) {
       </table>
     </div>
   </div>
+  )
 }
