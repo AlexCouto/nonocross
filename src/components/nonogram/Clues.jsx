@@ -127,7 +127,7 @@ export default function Clues(props) {
                   : "url('crossinv.gif')")
                 : "none")
             }} 
-            className={ ct === 'left'
+            className={ clue.val === 0 ? "nono_cell" : ct === 'left'
               ? ( hover[0] === i ? "nono_cell hovered" : "nono_cell" )
               : ( hover[1] === j ? "nono_cell hovered" : "nono_cell")
             }
