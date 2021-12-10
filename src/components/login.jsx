@@ -73,7 +73,6 @@ export default function Login(){
                 password: password
               })
               .then(function (response) {
-                console.log(response)
                 if(response.data.success === true){ setIsAuthenticated(true); }
                 else{
                   setErrorMessage('Credenciais Inválidas');

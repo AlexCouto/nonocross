@@ -50,15 +50,17 @@ export default function Howtoplay(props){
                 >
                 <DialogTitle className={classes.title} >{"Como Jogar"}</DialogTitle>
                 <DialogContent className={classes.content}>
-                    <DialogContentText >
-                        <p className={classes.paragraph}>
-                            O objetivo do quebra-cabeças é colorir a grade de pixels na tela do jogo da maneira especificada pelas dicas.
-                        </p>
-                        <p className={classes.paragraph}>
-                            As dicas especificam os conjuntos contínuos de quadrados de uma determinada cor em uma linha ou coluna. 
-                        </p>
-                        <img src={exemploNonograma} style={{ maxWidth: "100%", maxHeight: "calc(100vh - 64px)" }} alt="exemplo" />
+                    <DialogContentText className={classes.paragraph}>
+                        O objetivo do quebra-cabeças é colorir a grade de pixels na tela do jogo da maneira especificada pelas dicas.
+                    </DialogContentText> 
+                    <DialogContentText className={classes.paragraph}>
+                        As dicas especificam blocos contínuos de quadrados de uma mesma cor em uma linha ou coluna.
                     </DialogContentText>
+                    <DialogContentText className={classes.paragraph}>
+                        Existe pelo menos um quadrado vazio entre dois blocos da mesma cor. Porém, não é nescessario que existam
+                        espaço vazios entre blocos de cores diferentes.
+                    </DialogContentText>
+                    <img src={exemploNonograma} style={{ maxWidth: "100%", maxHeight: "calc(100vh - 64px)" }} alt="exemplo" />
                 </DialogContent>
         </Dialog>
       </>
