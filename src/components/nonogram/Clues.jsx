@@ -1,4 +1,5 @@
 import React, {useMemo, useState} from "react";
+import { useResultMatrixContext } from "../../context/ResultMatrixContext";
 import "../../styles/styles.css"
 import { useHoverContext } from "../../context/HoverContext";
 
@@ -6,11 +7,21 @@ import { useHoverContext } from "../../context/HoverContext";
 export default function Clues(props) {
   const ct = props.type
   const [iSize, jSize] = props.size
-  const resultMatrix = props.resultMatrix
+  const [resultMatrix,] = useResultMatrixContext()
   const changeColor = props.changeColor
   const [hover] = useHoverContext()
   
+  const [crossArray, setCrossArray] = useState(
+    Array.from({
+      length:50
+    }, () => new Array(50).fill(false))
+    //clueArray.map((row) => (row.map(() => false)))
+  )
+
   const clueArray = useMemo(() => {
+    setCrossArray(Array.from({
+      length:50
+    }, () => new Array(50).fill(false)))
     let clueRagArray = []
     
     let [outerSize, innerSize] = (ct === 'left' ? [iSize, jSize]
@@ -49,11 +60,21 @@ export default function Clues(props) {
     return clueRagArray
   }, [resultMatrix, ct, iSize, jSize])
 
-  const clueInnerSize = useMemo(() => clueArray[0].length, [clueArray])
+  const clueInnerSize = clueArray[0].length
 
-  const [crossArray, setCrossArray] = useState(
-    clueArray.map((row) => (row.map(() => false)))
-  )
+  
+
+  // useEffect( () => {
+  //   //const c = clueArray
+  //   console.log(clueArray)
+  //   setCrossArray(
+  //     //console.log(clueArray)
+  //     clueArray.map((row) => (row.map(() => false)))
+  //     //console.log(crossArray)
+  //   )
+  //   //console.log(crossArray)
+  //   //return crossArray
+  // }, [clueArray])
 
   function onClueClick(e, i, j, cluecolor, cluenum) {
     if(cluenum !== 0) {
@@ -71,8 +92,16 @@ export default function Clues(props) {
   let clueISize = (ct === 'left' ? iSize : clueInnerSize)
   let clueJSize = (ct === 'left' ? clueInnerSize : jSize)
 
-  let clueMatrix = []
+  // let clueMatrix = []
+  // console.log(clueArray)
+  // console.log(crossArray)
 
+  const clueMatrix = []
+  // setCrossArray(
+  //   //console.log(clueArray)
+  //   clueArray.map((row) => (row.map(() => false)))
+  //   //console.log(crossArray)
+  // )
   for(let i = 0; i < clueISize; i++) {
     let clueRow = []
     for(let j = 0; j < clueJSize; j++) {
@@ -89,14 +118,14 @@ export default function Clues(props) {
             style={{
               background: bgColor,
               color: props.fontColor[bgColor],
-              backgroundImage: (cross===true
-                ? (props.fontColor[bgColor]==="#000000"
-                   ? "url('cross.gif')"
-                   : "url('crossinv.gif')")
-                : "none"),
               backgroundSize: 'cover',
               backgroundPosition: "center center",
-              backgroundRepeat: "no-repeat"
+              backgroundRepeat: "no-repeat",
+              backgroundImage: (cross===true
+                ? (props.fontColor[bgColor]==="#000000"
+                  ? "url('cross.gif')"
+                  : "url('crossinv.gif')")
+                : "none")
             }} 
             className={ ct === 'left'
               ? ( hover[0] === i ? "nono_cell hovered" : "nono_cell" )
